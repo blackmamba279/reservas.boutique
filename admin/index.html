@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Admin | BoutiqueMG</title>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <!-- Contenido del panel admin -->
+    <div class="dashboard">
+        <!-- ... otros elementos ... -->
+    </div>
+
+    <!-- 1. Inicialización de datos (ANTES de los scripts) -->
+    <script>
+        // Solo se ejecuta si no existen datos previos
+        if(!localStorage.getItem('boutiquemg_initialized')) {
+            const sampleData = {
+                reservations: [
+                    {
+                        id: 'res_001',
+                        productName: 'Vestido Floral Premium',
+                        productCode: 'VST-20240601-001',
+                        clientName: 'María González',
+                        clientPhone: '+51987654321',
+                        date: new Date().toISOString(),
+                        status: 'active',
+                        price: 89.99
+                    }
+                ],
+                clients: [
+                    {
+                        id: 'cli_001',
+                        name: 'María González',
+                        phone: '+51987654321',
+                        email: 'maria@example.com',
+                        reservationsCount: 3
+                    }
+                ],
+                products: [
+                    {
+                        id: 'prod_001',
+                        code: 'VST-20240601-001',
+                        name: 'Vestido Floral Premium',
+                        price: 89.99,
+                        category: 'Vestidos',
+                        images: ['vestido-floral.jpg']
+                    }
+                ],
+                settings: {
+                    storeName: 'BoutiqueMG',
+                    whatsappNumber: '51987654321',
+                    currency: 'PEN'
+                }
+            };
+
+            // Guardar datos en localStorage
+            localStorage.setItem('boutiquemg_reservations', JSON.stringify(sampleData.reservations));
+            localStorage.setItem('boutiquemg_clients', JSON.stringify(sampleData.clients));
+            localStorage.setItem('boutiquemg_products', JSON.stringify(sampleData.products));
+            localStorage.setItem('boutiquemg_settings', JSON.stringify(sampleData.settings));
+            
+            // Marcar como inicializado
+            localStorage.setItem('boutiquemg_initialized', 'true');
+        }
+    </script>
+
+    <!-- 2. Scripts de la aplicación (DESPUÉS de la inicialización) -->
+    <script src="../assets/js/admin/admin-core.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
