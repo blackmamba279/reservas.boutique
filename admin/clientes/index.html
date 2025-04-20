@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes | BoutiqueMG</title>
+    <link rel="stylesheet" href="../../../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-header">
+        <h1><i class="fas fa-users"></i> Base de Clientes</h1>
+        <a href="../../index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+    </div>
+
+    <div class="client-actions">
+        <input type="text" id="searchClient" placeholder="Buscar cliente...">
+        <button class="btn-add" id="addClientBtn"><i class="fas fa-plus"></i> Nuevo</button>
+    </div>
+
+    <table class="clients-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Reservas</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="clientsTableBody">
+            <!-- Datos de clientes -->
+        </tbody>
+    </table>
+
+    <script src="../../../assets/js/admin/admin-core.js"></script>
+    <script src="clientes.js"></script>
+</body>
+</html>
