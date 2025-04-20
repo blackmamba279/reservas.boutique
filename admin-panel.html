@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - BoutiqueMG</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6d4c41;
+            --secondary: #d7ccc8;
+            --accent: #ffab91;
+            --text: #5d4037;
+            --light: #efebe9;
+            --dark: #3e2723;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: #f9f9f9;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-title {
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .admin-nav a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        
+        .admin-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+        
+        .admin-sidebar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            display: block;
+            padding: 8px 10px;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: var(--light);
+            color: var(--primary);
+        }
+        
+        .sidebar-menu i {
+            width: 20px;
+            margin-right: 8px;
+            text-align: center;
+        }
+        
+        .admin-main {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        .product-form {
+            margin-bottom: 30px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: var(--text);
+        }
+        
+        .btn-danger {
+            background-color: #e53935;
+            color: white;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .preview-item {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .preview-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .preview-item .remove-img {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .products-list {
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            display: grid;
+            grid-template-columns: 100px 1fr 150px;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+        
+        .product-card img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .product-info h3 {
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .product-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .product-actions .btn {
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-available {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .status-reserved {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1 class="admin-title">
+                <i class="fas fa-cog"></i> Panel de Administración
+            </h1>
+            <nav class="admin-nav">
+                <a href="index.html"><i class="fas fa-store"></i> Ver Tienda</a>
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+            </nav>
+        </header>
+        
+        <div class="admin-content">
+            <aside class="admin-sidebar">
+                <h2 class="sidebar-title">Menú</h2>
+                <ul class="sidebar-menu">
+                    <li><a href="#" class="active"><i class="fas fa-box-open"></i> Productos</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-check"></i> Reservas</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Reportes</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Clientes</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Configuración</a></li>
+                </ul>
+            </aside>
+            
+            <main class="admin-main">
+                <section class="product-management">
+                    <h2 class="section-title">
+                        <i class="fas fa-box-open"></i> Gestión de Productos
+                    </h2>
+                    
+                    <div class="product-form">
+                        <form id="productForm">
+                            <input type="hidden" id="productId">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productCategory">Categoría</label>
+                                    <select id="productCategory" required onchange="updateProductCode()">
+                                        <option value="CAM">Camisas</option>
+                                        <option value="CTS">Camisetas</option>
+                                        <option value="PAN">Pantalones</option>
+                                        <option value="JOG">Joggers</option>
+                                        <option value="SWT">Sweter</option>
+                                        <option value="BLU">Blusas</option>
+                                        <option value="S-M">Short Mujer</option>
+                                        <option value="S-H">Short Hombre</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="productCode">Código de Referencia</label>
+                                    <input type="text" id="productCode" readonly>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productName">Nombre del Producto</label>
+                                <input type="text" id="productName" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="productPrice">Precio ($)</label>
+                                    <input type="number" id="productPrice" step="0.01" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="productSize">Tallas Disponibles</label>
+                                    <input type="text" id="productSize" placeholder="Ej: S,M,L,XL">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productDescription">Descripción</label>
+                                <textarea id="productDescription" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Imágenes (Máx. 4)</label>
+                                <div class="image-upload">
+                                    <input type="file" id="productImages" multiple accept="image/*" style="display: none;">
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('productImages').click()">
+                                        <i class="fas fa-cloud-upload-alt"></i> Seleccionar Imágenes
+                                    </button>
+                                    <p class="help-text">Arrastra o selecciona hasta 4 imágenes</p>
+                                </div>
+                                <div class="image-preview" id="imagePreview"></div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Guardar Producto
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="resetBtn">
+                                    <i class="fas fa-undo"></i> Limpiar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="products-list">
+                        <h2 class="section-title">
+                            <i class="fas fa-list"></i> Lista de Productos
+                        </h2>
+                        
+                        <div class="product-card">
+                            <img src="assets/images/camisa1.jpg" alt="Camisa Blanca">
+                            <div class="product-info">
+                                <h3>Camisa Elegante Blanca</h3>
+                                <p class="product-meta">
+                                    <strong>REF:</strong> CAM-240525-001 | 
+                                    <strong>Precio:</strong> $49.99 | 
+                                    <span class="status-badge status-reserved">Reservado</span>
+                                </p>
+                                <p>Camisa 100% algodón de corte slim fit...</p>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="btn btn-danger" onclick="removeReservation('item1')">
+                                    <i class="fas fa-unlock"></i> Quitar Reserva
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Más productos se agregarían dinámicamente -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Mapeo de categorías a nombres completos
+        const categoryNames = {
+            'CAM': 'Camisas',
+            'CTS': 'Camisetas',
+            'PAN': 'Pantalones',
+            'JOG': 'Joggers',
+            'SWT': 'Sweter',
+            'BLU': 'Blusas',
+            'S-M': 'Short Mujer',
+            'S-H': 'Short Hombre'
+        };
+        
+        // Generar código de referencia automático
+        function generateProductCode(category = 'CAM') {
+            const now = new Date();
+            const datePart = now.toISOString().slice(2, 10).replace(/-/g, ''); // YYMMDD
+            
+            // Obtener último número para esta categoría
+            const storageKey = `lastProductNumber_${category}`;
+            let lastNumber = localStorage.getItem(storageKey) || 0;
+            lastNumber = parseInt(lastNumber) + 1;
+            localStorage.setItem(storageKey, lastNumber);
+            
+            return `${category}-${datePart}-${lastNumber.toString().padStart(3, '0')}`;
+        }
+        
+        // Actualizar código al cambiar categoría
+        function updateProductCode() {
+            const category = document.getElementById('productCategory').value;
+            document.getElementById('productCode').value = generateProductCode(category);
+        }
+        
+        // Previsualización de imágenes
+        document.getElementById('productImages').addEventListener('change', function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            
+            if (this.files.length > 4) {
+                alert('Máximo 4 imágenes permitidas');
+                this.value = '';
+                return;
+            }
+            
+            Array.from(this.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    previewItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="remove-img" onclick="this.parentNode.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    preview.appendChild(previewItem);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+        
+        // Quitar reserva (simulada)
+        function removeReservation(itemId) {
+            if (confirm('¿Estás seguro de quitar la reserva de este producto?')) {
+                // En producción, aquí harías una llamada a tu backend
+                alert('Reserva eliminada. El producto está disponible nuevamente.');
+                
+                // Simular actualización en la interfaz
+                const productCard = document.querySelector(`[onclick="removeReservation('${itemId}')"]`).closest('.product-card');
+                productCard.querySelector('.status-badge').className = 'status-badge status-available';
+                productCard.querySelector('.status-badge').textContent = 'Disponible';
+            }
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProductCode(); // Generar primer código
+            
+            // Ejemplo: Cargar productos desde localStorage
+            // En producción, esto vendría de una base de datos
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            // Formulario para guardar productos
+            document.getElementById('productForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const product = {
+                    id: document.getElementById('productId').value || Date.now().toString(),
+                    code: document.getElementById('productCode').value,
+                    category: document.getElementById('productCategory').value,
+                    name: document.getElementById('productName').value,
+                    price: document.getElementById('productPrice').value,
+                    size: document.getElementById('productSize').value,
+                    description: document.getElementById('productDescription').value,
+                    images: [] // Aquí guardarías las imágenes subidas
+                };
+                
+                // Guardar en localStorage (en producción sería un API call)
+                const existingIndex = products.findIndex(p => p.id === product.id);
+                if (existingIndex >= 0) {
+                    products[existingIndex] = product;
+                } else {
+                    products.push(product);
+                }
+                
+                localStorage.setItem('products', JSON.stringify(products));
+                alert('Producto guardado exitosamente!');
+                this.reset();
+                updateProductCode();
+            });
+        });
+    </script>
+</body>
+</html>
