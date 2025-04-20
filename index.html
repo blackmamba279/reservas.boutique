@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BoutiqueMG Reservas</title>
+    <style>
+        :root {
+            --primary: #6d4c41;
+            --secondary: #d7ccc8;
+            --accent: #ffab91;
+            --text: #5d4037;
+            --light: #efebe9;
+            --dark: #3e2723;
+            --whatsapp: #25D366;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+        
+        /* Header con logo */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+        
+        .logo-img {
+            height: 60px;
+            width: 60px;
+            margin-right: 15px;
+            border-radius: 50%; /* Logo completamente redondo */
+            border: 3px solid white;
+            object-fit: cover;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .logo-slogan {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-top: 3px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Tarjeta de producto */
+        .item {
+            background-color: white;
+            border-radius: 12px;
+            margin: 15px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-code {
+            background-color: var(--accent);
+            color: var(--dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 15px 0 0 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .reserved-tag {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: #e53935;
+            color: white;
+            padding: 5px 30px;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+        }
+        
+        .product-content {
+            padding: 0 15px 15px;
+        }
+        
+        .product-title {
+            font-size: 1.4rem;
+            margin: 10px 0 5px;
+            color: var(--dark);
+        }
+        
+        .gallery {
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            margin: 15px 0;
+            padding: 0 0 10px 15px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .gallery::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .gallery::-webkit-scrollbar-thumb {
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        .gallery img {
+            height: 200px;
+            width: auto;
+            border-radius: 8px;
+            scroll-snap-align: start;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+        }
+        
+        .price-tag {
+            display: inline-block;
+            background-color: var(--light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+        
+        .description {
+            color: var(--text);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .details-list {
+            list-style: none;
+            margin: 10px 0 15px;
+            font-size: 0.9rem;
+        }
+        
+        .details-list li {
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .details-list li::before {
+            content: "•";
+            color: var(--accent);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .reserve-btn {
+            background-color: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .reserve-btn:hover {
+            background-color: #128C7E;
+            box-shadow: 0 4px 12px rgba(18, 140, 126, 0.3);
+        }
+        
+        .reserve-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        
+        .reserve-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text);
+            font-size: 0.85rem;
+            margin-top: 30px;
+        }
+        
+        /* Efectos de carga */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .item {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <div class="logo-container">
+                <!-- Reemplaza logo.jpg con la ruta de tu logo -->
+                <img src="logo.jpg" alt="Logo BoutiqueMG" class="logo-img">
+                <div>
+                    <div class="logo-text">BoutiqueMG Reservas</div>
+                    <div class="logo-slogan">Reserva tu estilo exclusivo</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="item" id="item1">
+            <span class="product-code">REF: VF2023-001</span>
+            <div class="reserved-tag">RESERVADO</div>
+            
+            <div class="product-content">
+                <h2 class="product-title">Vestido Floral Primavera</h2>
+                
+                <div class="gallery">
+                    <img src="vestido1.jpg" alt="Vestido Floral - Foto frontal">
+                    <img src="vestido2.jpg" alt="Vestido Floral - Foto lateral">
+                    <img src="vestido3.jpg" alt="Vestido Floral - Detalle">
+                    <img src="vestido4.jpg" alt="Vestido Floral - Espalda">
+                </div>
+                
+                <div class="price-tag">$59.99</div>
+                
+                <p class="description">
+                    Vestido floral de algodón orgánico con corte A. Fabricado con materiales sostenibles, 
+                    este vestido es perfecto para eventos diurnos y paseos primaverales. 
+                    Diseño exclusivo con patrones florales únicos.
+                </p>
+                
+                <ul class="details-list">
+                    <li>Disponible en tallas S, M, L, XL</li>
+                    <li>100% algodón orgánico</li>
+                    <li>Lavable a máquina</li>
+                    <li>Hecho en España</li>
+                </ul>
+                
+                <button class="reserve-btn" onclick="reserveItem('item1', 'Vestido Floral Primavera', 'REF: VF2023-001', 'vestido1.jpg', '$59.99', 'Vestido floral de algodón orgánico con corte A. Disponible en tallas S a XL. Ideal para eventos de día. Lavable a máquina.')">
+                    <i class="fab fa-whatsapp"></i> Reservar por WhatsApp
+                </button>
+            </div>
+        </div>
+        
+        <!-- Más artículos pueden añadirse aquí -->
+        
+        <footer class="footer">
+            © 2023 BoutiqueMG - Todos los derechos reservados
+        </footer>
+    </div>
+    
+    <script>
+        function reserveItem(itemId, name, code, mainImage, price, description) {
+            // Mostrar etiqueta de reservado
+            document.querySelector(`#${itemId} .reserved-tag`).style.display = 'block';
+            
+            // Crear mensaje completo para WhatsApp
+            const phone = 'NUMERO_DE_TELEFONO'; // Reemplazar con número real
+            const message = `¡Hola BoutiqueMG! Quiero reservar este artículo:
+
+🛍 *${name}*
+🆔 *${code}*
+💰 *Precio:* ${price}
+
+📋 *Descripción:* 
+${description}
+
+📍 ¿Podrían confirmarme disponibilidad y cómo proceder con la reserva?
+
+¡Gracias!`;
+            
+            // Abrir WhatsApp con mensaje
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+            
+            // Desactivar el botón después de reservar
+            const btn = document.querySelector(`#${itemId} .reserve-btn`);
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-check"></i> Reserva en proceso';
+            
+            // Guardar en localStorage que está reservado
+            localStorage.setItem(itemId, 'reserved');
+        }
+        
+        // Verificar si hay reservas guardadas al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const reservedItems = ['item1']; // Añadir IDs de todos los items
+            
+            reservedItems.forEach(id => {
+                if(localStorage.getItem(id) === 'reserved') {
+                    document.querySelector(`#${id} .reserved-tag`).style.display = 'block';
+                    const btn = document.querySelector(`#${id} .reserve-btn`);
+                    if(btn) {
+                        btn.disabled = true;
+                        btn.innerHTML = '<i class="fas fa-check"></i> Reserva en proceso';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
