@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BoutiqueMG Reservas</title>
+    <title>BoutiqueMG - Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         :root {
             --primary: #6d4c41;
@@ -34,7 +35,7 @@
             padding-bottom: 20px;
         }
         
-        /* Header con logo */
+        /* Header con logo y fecha */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--dark));
             color: white;
@@ -56,7 +57,7 @@
             height: 60px;
             width: 60px;
             margin-right: 15px;
-            border-radius: 50%; /* Logo completamente redondo */
+            border-radius: 50%;
             border: 3px solid white;
             object-fit: cover;
         }
@@ -74,6 +75,12 @@
             margin-top: 3px;
             font-weight: 300;
             letter-spacing: 0.5px;
+        }
+        
+        .header-date {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            opacity: 0.8;
         }
         
         /* Tarjeta de producto */
@@ -244,100 +251,152 @@
         .item {
             animation: fadeIn 0.5s ease-out forwards;
         }
+        
+        /* Botón de admin */
+        .admin-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
         <header class="header">
             <div class="logo-container">
-                <!-- Reemplaza logo.jpg con la ruta de tu logo -->
-                <img src="logo.jpg" alt="Logo BoutiqueMG" class="logo-img">
+                <img src="assets/images/logo.jpg" alt="Logo BoutiqueMG" class="logo-img">
                 <div>
                     <div class="logo-text">BoutiqueMG Reservas</div>
-                    <div class="logo-slogan">Reserva tu estilo exclusivo</div>
+                    <div class="logo-slogan">Estilo que perdura</div>
+                    <div class="header-date" id="currentDate"></div>
                 </div>
             </div>
         </header>
         
         <div class="item" id="item1">
-            <span class="product-code">REF: VF2023-001</span>
+            <span class="product-code">REF: CAM-240525-001</span>
             <div class="reserved-tag">RESERVADO</div>
             
             <div class="product-content">
-                <h2 class="product-title">Vestido Floral Primavera</h2>
+                <h2 class="product-title">Camisa Elegante Blanca</h2>
                 
                 <div class="gallery">
-                    <img src="vestido1.jpg" alt="Vestido Floral - Foto frontal">
-                    <img src="vestido2.jpg" alt="Vestido Floral - Foto lateral">
-                    <img src="vestido3.jpg" alt="Vestido Floral - Detalle">
-                    <img src="vestido4.jpg" alt="Vestido Floral - Espalda">
+                    <img src="assets/images/camisa1.jpg" alt="Camisa Blanca - Frontal">
+                    <img src="assets/images/camisa2.jpg" alt="Camisa Blanca - Detalle">
+                    <img src="assets/images/camisa3.jpg" alt="Camisa Blanca - Lateral">
+                    <img src="assets/images/camisa4.jpg" alt="Camisa Blanca - Espalda">
                 </div>
                 
-                <div class="price-tag">$59.99</div>
+                <div class="price-tag">$49.99</div>
                 
                 <p class="description">
-                    Vestido floral de algodón orgánico con corte A. Fabricado con materiales sostenibles, 
-                    este vestido es perfecto para eventos diurnos y paseos primaverales. 
-                    Diseño exclusivo con patrones florales únicos.
+                    Camisa 100% algodón de corte slim fit. Ideal para ocasiones formales. 
+                    Cuello italiano y botones de madreperla.
                 </p>
                 
                 <ul class="details-list">
                     <li>Disponible en tallas S, M, L, XL</li>
-                    <li>100% algodón orgánico</li>
+                    <li>Color: Blanco hueso</li>
                     <li>Lavable a máquina</li>
-                    <li>Hecho en España</li>
+                    <li>Planchado a media temperatura</li>
                 </ul>
                 
-                <button class="reserve-btn" onclick="reserveItem('item1', 'Vestido Floral Primavera', 'REF: VF2023-001', 'vestido1.jpg', '$59.99', 'Vestido floral de algodón orgánico con corte A. Disponible en tallas S a XL. Ideal para eventos de día. Lavable a máquina.')">
+                <button class="reserve-btn" onclick="reserveItem('item1', 'Camisa Elegante Blanca', 'REF: CAM-240525-001', 'assets/images/camisa1.jpg', '$49.99', 'Camisa 100% algodón de corte slim fit. Ideal para ocasiones formales. Cuello italiano y botones de madreperla.')">
                     <i class="fab fa-whatsapp"></i> Reservar por WhatsApp
                 </button>
             </div>
         </div>
         
-        <!-- Más artículos pueden añadirse aquí -->
+        <!-- Más productos pueden añadirse aquí -->
         
         <footer class="footer">
-            © 2023 BoutiqueMG - Todos los derechos reservados
+            © <span id="currentYear"></span> BoutiqueMG - Todos los derechos reservados
         </footer>
     </div>
-   
+    
+    <!-- Botón flotante para admin -->
+    <button class="admin-btn" onclick="window.location.href='admin-login.html'" title="Acceso Administración">
+        <i class="fas fa-lock"></i>
+    </button>
+    
     <script>
+        // Mostrar fecha actual en el header
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = 
+                'Hoy es ' + now.toLocaleDateString('es-ES', options);
+        }
+        
+        // Actualizar año en el footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Función para reservar productos
         function reserveItem(itemId, name, code, mainImage, price, description) {
             // Mostrar etiqueta de reservado
             document.querySelector(`#${itemId} .reserved-tag`).style.display = 'block';
             
-            // Crear mensaje completo para WhatsApp
-            const phone = '+50587010851'; // Reemplazar con número real
+            // Obtener fecha y hora actual de la reserva
+            const now = new Date();
+            const reserveDate = now.toLocaleDateString('es-ES', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            const reserveTime = now.toLocaleTimeString('es-ES', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Crear mensaje para WhatsApp
+            const phone = '51987654321'; // Reemplaza con tu número (sin +)
             const message = `¡Hola BoutiqueMG! Quiero reservar este artículo:
 
 🛍 *${name}*
 🆔 *${code}*
 💰 *Precio:* ${price}
 
+📅 *Fecha de reserva:* ${reserveDate}
+⏰ *Hora de reserva:* ${reserveTime}
+
 📋 *Descripción:* 
 ${description}
 
-📍 ¿Podrían confirmarme disponibilidad y cómo proceder con la reserva?
-
-¡Gracias!`;
+Por favor, indíquenme los pasos para completar la reserva. ¡Gracias!`;
             
-            // Abrir WhatsApp con mensaje
+            // Abrir WhatsApp
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
             
-            // Desactivar el botón después de reservar
+            // Desactivar botón y guardar reserva
             const btn = document.querySelector(`#${itemId} .reserve-btn`);
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-check"></i> Reserva en proceso';
-            
-            // Guardar en localStorage que está reservado
             localStorage.setItem(itemId, 'reserved');
         }
         
-        // Verificar si hay reservas guardadas al cargar la página
+        // Verificar reservas al cargar la página
         document.addEventListener('DOMContentLoaded', function() {
-            const reservedItems = ['item1']; // Añadir IDs de todos los items
+            updateCurrentDate();
             
+            const reservedItems = ['item1']; // Añadir IDs de todos los items
             reservedItems.forEach(id => {
                 if(localStorage.getItem(id) === 'reserved') {
                     document.querySelector(`#${id} .reserved-tag`).style.display = 'block';
@@ -350,10 +409,5 @@ ${description}
             });
         });
     </script>
-    <script>
-    document.querySelector('.footer').innerHTML = `
-        © ${new Date().getFullYear()} BoutiqueMG - Todos los derechos reservados
-    `;
-</script>
 </body>
 </html>
