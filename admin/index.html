@@ -2,71 +2,257 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Admin | BoutiqueMG</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - BoutiqueMG</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <style>
+        :root {
+            --primary: #6d4c41;
+            --secondary: #d7ccc8;
+            --accent: #ffab91;
+            --text: #5d4037;
+            --light: #efebe9;
+            --dark: #3e2723;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--text);
+        }
+        
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .admin-sidebar {
+            background-color: var(--dark);
+            color: white;
+            padding: 20px;
+        }
+        
+        .admin-logo {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .admin-logo img {
+            max-width: 80px;
+            border-radius: 50%;
+        }
+        
+        .admin-logo h2 {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .admin-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+        
+        .admin-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .admin-menu a:hover, .admin-menu a.active {
+            background-color: var(--primary);
+        }
+        
+        .admin-menu i {
+            width: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .admin-main {
+            padding: 30px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .btn-logout {
+            background-color: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .btn-logout i {
+            margin-right: 5px;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: var(--primary);
+        }
+    </style>
 </head>
 <body>
-    <!-- Contenido del panel admin -->
-    <div class="dashboard">
-        <!-- ... otros elementos ... -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="admin-logo">
+                <img src="../assets/images/logo-admin.png" alt="BoutiqueMG">
+                <h2>BoutiqueMG</h2>
+            </div>
+            
+            <ul class="admin-menu">
+                <li><a href="index.html" class="active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a></li>
+                <li><a href="reservas.html">
+                    <i class="fas fa-calendar-check"></i> Reservas
+                </a></li>
+                <li><a href="clientes.html">
+                    <i class="fas fa-users"></i> Clientes
+                </a></li>
+                <li><a href="reportes.html">
+                    <i class="fas fa-chart-bar"></i> Reportes
+                </a></li>
+                <li><a href="configuracion.html">
+                    <i class="fas fa-cog"></i> Configuración
+                </a></li>
+            </ul>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Panel de Administración</h1>
+                <div class="user-info">
+                    <img src="../assets/images/user-avatar.png" alt="Admin">
+                    <span>Administrador</span>
+                    <button class="btn-logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+            
+            <h2>Resumen General</h2>
+            
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-calendar-check"></i> Reservas Hoy</h3>
+                    <div class="card-value" id="todayReservations">0</div>
+                    <a href="reservas.html">Ver todas</a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users"></i> Clientes Registrados</h3>
+                    <div class="card-value" id="totalClients">0</div>
+                    <a href="clientes.html">Ver lista</a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-box-open"></i> Productos</h3>
+                    <div class="card-value" id="totalProducts">0</div>
+                    <a href="configuracion.html">Gestionar</a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-dollar-sign"></i> Ventas</h3>
+                    <div class="card-value" id="totalSales">$0</div>
+                    <a href="reportes.html">Ver reportes</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- 1. Inicialización de datos (ANTES de los scripts) -->
+    <!-- Scripts -->
+    <script src="../assets/js/admin/auth.js"></script>
     <script>
-        // Solo se ejecuta si no existen datos previos
-        if(!localStorage.getItem('boutiquemg_initialized')) {
-            const sampleData = {
-                reservations: [
-                    {
-                        id: 'res_001',
-                        productName: 'Vestido Floral Premium',
-                        productCode: 'VST-20240601-001',
-                        clientName: 'María González',
-                        clientPhone: '+51987654321',
-                        date: new Date().toISOString(),
-                        status: 'active',
-                        price: 89.99
-                    }
-                ],
-                clients: [
-                    {
-                        id: 'cli_001',
-                        name: 'María González',
-                        phone: '+51987654321',
-                        email: 'maria@example.com',
-                        reservationsCount: 3
-                    }
-                ],
-                products: [
-                    {
-                        id: 'prod_001',
-                        code: 'VST-20240601-001',
-                        name: 'Vestido Floral Premium',
-                        price: 89.99,
-                        category: 'Vestidos',
-                        images: ['vestido-floral.jpg']
-                    }
-                ],
-                settings: {
-                    storeName: 'BoutiqueMG',
-                    whatsappNumber: '51987654321',
-                    currency: 'PEN'
-                }
-            };
-
-            // Guardar datos en localStorage
-            localStorage.setItem('boutiquemg_reservations', JSON.stringify(sampleData.reservations));
-            localStorage.setItem('boutiquemg_clients', JSON.stringify(sampleData.clients));
-            localStorage.setItem('boutiquemg_products', JSON.stringify(sampleData.products));
-            localStorage.setItem('boutiquemg_settings', JSON.stringify(sampleData.settings));
+        // Verificar autenticación al cargar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar sesión
+            if(localStorage.getItem('adminLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+            }
             
-            // Marcar como inicializado
-            localStorage.setItem('boutiquemg_initialized', 'true');
+            // Configurar logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('adminLoggedIn');
+                window.location.href = 'login.html';
+            });
+            
+            // Cargar datos del dashboard
+            loadDashboardData();
+            
+            // Marcar enlace activo
+            const currentPage = window.location.pathname.split('/').pop();
+            document.querySelectorAll('.admin-menu a').forEach(link => {
+                if(link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+        
+        function loadDashboardData() {
+            // Simular carga de datos
+            setTimeout(() => {
+                document.getElementById('todayReservations').textContent = '5';
+                document.getElementById('totalClients').textContent = '24';
+                document.getElementById('totalProducts').textContent = '18';
+                document.getElementById('totalSales').textContent = '$1,240';
+            }, 800);
         }
     </script>
-
-    <!-- 2. Scripts de la aplicación (DESPUÉS de la inicialización) -->
-    <script src="../assets/js/admin/admin-core.js"></script>
-    <script src="js/dashboard.js"></script>
 </body>
 </html>
