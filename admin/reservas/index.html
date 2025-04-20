@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservas | BoutiqueMG</title>
+    <link rel="stylesheet" href="../../../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-header">
+        <h1><i class="fas fa-calendar-alt"></i> Gestión de Reservas</h1>
+        <a href="../../index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Volver</a>
+    </div>
+
+    <div class="filters">
+        <select id="statusFilter">
+            <option value="all">Todas las reservas</option>
+            <option value="active">Activas</option>
+            <option value="completed">Completadas</option>
+        </select>
+        <input type="date" id="dateFilter">
+    </div>
+
+    <div class="reservations-grid" id="reservationsGrid">
+        <!-- Las reservas se cargarán aquí dinámicamente -->
+    </div>
+
+    <script src="../../../assets/js/admin/admin-core.js"></script>
+    <script src="reservas.js"></script>
+</body>
+</html>
