@@ -41,3 +41,40 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleImageUpload(e) {
   // Lógica para previsualizar imágenes (máx. 4)
 }
+// Función para liberar reserva
+async function liberarReserva(productId) {
+  if (!confirm("¿Liberar esta reserva?")) return;
+
+  try {
+    const response = await fetch(`/api/reservations/${productId}/liberar`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+      }
+    });
+
+    if (response.ok) {
+      // Actualizar UI sin recargar
+      const productElement = document.getElementById(`product-${productId}`);
+      if (productElement) {
+        productElement.querySelector('.reserva-status').textContent = 'Disponible';
+        productElement.querySelector('.btn-liberar').remove();
+      }
+      showNotification('Reserva liberada', 'success');
+    } else {
+      throw new Error(await response.text());
+    }
+  } catch (error) {
+    showNotification('Error: ' + error.message, 'error');
+  }
+}
+
+// Escuchar eventos de actualización (WebSocket)
+const socket = io();
+socket.on('product-updated', (product) => {
+  if (window.location.pathname.includes('/admin/products')) {
+    updateProductUI(product); // Actualizar tabla de productos
+  } else if (window.location.pathname === '/catalog.html') {
+    updateCatalogProduct(product); // Actualizar catálogo principal
+  }
+});
