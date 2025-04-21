@@ -1,0 +1,10 @@
+<!-- Modificar la columna de acciones -->
+<td>
+  {{#if reserved}}
+    <button 
+      onclick="liberarReserva('{{_id}}')" 
+      class="btn btn-sm btn-danger btn-liberar">
+      <i class="fas fa-unlock"></i> Liberar
+    </button>
+  {{/if}}
+</td>
