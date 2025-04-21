@@ -45,3 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// Actualizar estado en tiempo real
+const socket = io();
+socket.on('product-updated', (product) => {
+  const productCard = document.getElementById(`product-${product._id}`);
+  if (productCard) {
+    const badge = productCard.querySelector('.availability-badge');
+    badge.textContent = product.reserved ? 'Reservado' : 'Disponible';
+    badge.className = `availability-badge ${product.reserved ? 'bg-danger' : 'bg-success'}`;
+  }
+});
